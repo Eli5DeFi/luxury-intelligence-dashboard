@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Luxury Intelligence · Global Market Dashboard 2025</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+<style>
+:root {
+  --bg: #07070f;
+  --bg2: #0d0d1a;
+  --bg3: #111120;
+  --gold: #C9A84C;
+  --gold-lt: #E8C97A;
+  --gold-dk: #8B6914;
+  --gold-pale: rgba(201,168,76,.06);
+  --gold-border: rgba(201,168,76,.18);
+  --cream: #F5F0E8;
+  --text: #c4baa0;
+  --text-dim: rgba(196,186,160,.45);
+  --pos: #5BAA7E;
+  --neg: #C05555;
+  --serif: 'Cormorant Garamond', Georgia, serif;
+  --sans: 'DM Sans', system-ui, sans-serif;
+  --mono: 'Space Mono', monospace;
+  --radius: 8px;
+  --glow: 0 0 40px rgba(201,168,76,.12);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 14px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 999;
+  opacity: .5;
+}
+h1,h2,h3,h4,h5,h6 { font-family: var(--serif); font-weight: 400; color: var(--cream); }
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: var(--bg2); }
+::-webkit-scrollbar-thumb { background: var(--gold-dk); border-radius: 2px; }
+
+/* NAV */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(7,7,15,.94);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--gold-border);
+  padding: 0 40px;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 54px;
+}
+.nav-logo {
+  font-family: var(--serif); font-size: 17px; font-weight: 600;
+  color: var(--gold); letter-spacing: 0.18em; text-transform: uppercase;
+}
+.nav-links { display: flex; gap: 24px; list-style: none; }
+.nav-links a {
+  color: var(--text-dim); text-decoration: none;
+  font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+  transition: color .2s;
+}
+.nav-links a:hover { color: var(--gold); }
+
+/* LAYOUT */
+.page-section {
+  padding: 72px 48px;
+  max-width: 1400px; margin: 0 auto;
+}
+.section-label {
+  font-size: 10px; letter-spacing: 0.32em; text-transform: uppercase;
+  color: var(--gold); font-family: var(--mono); margin-bottom: 6px;
+  display: flex; align-items: center; gap: 10px;
+}
+.section-label::before {
+  content: ''; display: block; width: 24px; height: 1px; background: var(--gold);
+}
+.section-title {
+  font-size: clamp(26px, 3vw, 40px); color: var(--cream);
+  line-height: 1.15; margin-bottom: 6px; letter-spacing: 0.01em;
+}
+.section-sub { font-size: 13px; color: var(--text-dim); margin-bottom: 44px; }
+.section-divider {
+  border: none; border-top: 1px solid rgba(201,168,76,.07); margin: 0 48px;
+}
+
+/* HERO */
+#hero {
+  padding: 90px 48px 72px; max-width: 1400px; margin: 0 auto;
+}
+.hero-eyebrow {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.4em;
+  text-transform: uppercase; color: var(--gold); margin-bottom: 20px;
+  opacity: 0; animation: fadeUp .7s ease forwards .05s;
+}
+.hero-title {
+  font-family: var(--serif); font-size: clamp(54px, 8.5vw, 102px);
+  font-weight: 300; color: var(--cream); line-height: .92;
+  letter-spacing: -0.01em; margin-bottom: 20px;
+  opacity: 0; animation: fadeUp .7s ease forwards .15s;
+}
+.gold-gradient {
+  background: linear-gradient(130deg, var(--gold-lt) 0%, var(--gold) 45%, var(--gold-dk) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; background-size: 200%;
+  animation: shimmer 5s ease-in-out infinite;
+}
+.hero-sub {
+  font-size: 14px; color: var(--text-dim); letter-spacing: 0.1em;
+  margin-bottom: 52px;
+  opacity: 0; animation: fadeUp .7s ease forwards .28s;
+}
+.hero-kpis {
+  display: grid; grid-template-columns: repeat(3,1fr);
+  gap: 1px; background: var(--gold-border);
+  border: 1px solid var(--gold-border); border-radius: var(--radius);
+  overflow: hidden;
+  opacity: 0; animation: fadeUp .7s ease forwards .4s;
+}
+.kpi {
+  background: var(--bg2); padding: 28px 24px; position: relative; overflow: hidden;
+}
+.kpi::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, var(--gold), transparent);
+}
+.kpi-lbl {
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.24em;
+  text-transform: uppercase; color: var(--text-dim); margin-bottom: 10px;
+}
+.kpi-val {
+  font-family: var(--serif); font-size: clamp(30px,4vw,52px); font-weight: 300;
+  color: var(--cream); line-height: 1; margin-bottom: 6px;
+}
+.kpi-val.gold { background: linear-gradient(90deg, var(--cream) 0%, var(--gold-lt) 50%, var(--cream) 100%);
+  background-size: 200%; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; animation: shimmer 3.5s ease-in-out infinite; }
+.kpi-val.red { color: var(--neg) !important; -webkit-text-fill-color: var(--neg); }
+.kpi-note { font-size: 11px; color: var(--text-dim); }
+
+/* GLASS CARD */
+.glass {
+  background: var(--gold-pale); backdrop-filter: blur(10px);
+  border: 1px solid var(--gold-border); border-radius: var(--radius); padding: 28px;
+}
+
+/* MARKET GRID */
+.market-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; }
+.mcard {
+  background: var(--bg2); border: 1px solid var(--gold-border);
+  border-radius: var(--radius); padding: 22px;
+  transition: border-color .3s, box-shadow .3s;
+  opacity: 0; transform: translateY(18px);
+}
+.mcard:hover { border-color: rgba(201,168,76,.5); box-shadow: var(--glow); }
+.mcard.show { opacity: 1; transform: none; transition: opacity .55s ease, transform .55s ease, border-color .3s, box-shadow .3s; }
+.mcard-icon { font-size: 18px; margin-bottom: 10px; }
+.mcard-cat {
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--text-dim); margin-bottom: 6px;
+}
+.mcard-val { font-family: var(--serif); font-size: 28px; font-weight: 500; color: var(--cream); line-height: 1; margin-bottom: 4px; }
+.mcard-cagr { font-family: var(--mono); font-size: 10px; color: var(--pos); margin-bottom: 14px; }
+.spark-wrap { height: 44px; }
+
+/* WATCH */
+.watch-layout { display: grid; grid-template-columns: 55fr 45fr; gap: 20px; align-items: start; }
+.wtbl { width: 100%; border-collapse: collapse; }
+.wtbl th {
+  font-family: var(--mono); font-size: 8px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--gold); padding: 8px 10px; border-bottom: 1px solid var(--gold-border);
+  text-align: left; font-weight: 400;
+}
+.wtbl td { padding: 11px 10px; border-bottom: 1px solid rgba(201,168,76,.05); font-size: 12px; }
+.wtbl tr:hover td { background: var(--gold-pale); }
+.wbrand { font-family: var(--serif); font-size: 15px; color: var(--cream); font-weight: 500; }
+.wrev { font-family: var(--mono); font-size: 11px; color: var(--gold-lt); }
+.sbadge {
+  background: rgba(201,168,76,.1); border: 1px solid var(--gold-border);
+  border-radius: 3px; padding: 2px 5px;
+  font-family: var(--mono); font-size: 9px; color: var(--gold);
+}
+
+/* KFLII */
+.kflii-grid { display: grid; grid-template-columns: 3fr 2fr; gap: 20px; }
+.chart-ttl {
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--gold); margin-bottom: 14px;
+}
+
+/* REGIONS */
+.region-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; }
+.rcard {
+  background: var(--bg2); border: 1px solid var(--gold-border);
+  border-radius: var(--radius); padding: 20px; text-align: center;
+  opacity: 0; transform: translateY(16px);
+}
+.rcard.show { opacity: 1; transform: none; transition: opacity .55s, transform .55s; }
+.rcard.boom { border-color: rgba(91,170,126,.45); box-shadow: 0 0 18px rgba(91,170,126,.08); }
+.rcard.up { border-color: rgba(91,170,126,.25); }
+.rcard.dn { border-color: rgba(192,85,85,.3); }
+.rcard.gold-special { border-color: rgba(201,168,76,.45); }
+.rlbl { font-family: var(--mono); font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 8px; }
+.rpct { font-family: var(--serif); font-size: 34px; font-weight: 300; line-height: 1; margin-bottom: 4px; }
+.rstatus { font-family: var(--mono); font-size: 8px; letter-spacing: 0.15em; text-transform: uppercase; }
+.c-pos { color: var(--pos); }
+.c-neg { color: var(--neg); }
+.c-neu { color: var(--gold); }
+.c-gold { color: var(--gold-lt); }
+
+/* HOUSES */
+.house-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; }
+.hcard {
+  background: var(--bg2); border: 1px solid var(--gold-border);
+  border-radius: var(--radius); padding: 22px;
+  opacity: 0; transform: translateY(16px);
+}
+.hcard.show { opacity: 1; transform: none; transition: opacity .55s, transform .55s; }
+.hbrand { font-family: var(--serif); font-size: 22px; color: var(--cream); margin-bottom: 3px; }
+.hparent { font-family: var(--mono); font-size: 9px; color: var(--text-dim); letter-spacing: 0.1em; margin-bottom: 18px; }
+.hrev { font-family: var(--mono); font-size: 19px; color: var(--gold-lt); margin-bottom: 3px; }
+.hgrowth { font-family: var(--mono); font-size: 12px; margin-bottom: 14px; }
+.hmargin { font-size: 11px; color: var(--text-dim); padding-top: 14px; border-top: 1px solid var(--gold-border); }
+.hmargin b { color: var(--gold); font-weight: 400; }
+.hdot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; margin-right: 3px; vertical-align: middle; }
+.dot-g { background: var(--pos); box-shadow: 0 0 5px var(--pos); }
+.dot-n { background: var(--neg); box-shadow: 0 0 5px var(--neg); }
+.dot-y { background: var(--gold); box-shadow: 0 0 5px var(--gold); }
+.hstatus { font-family: var(--mono); font-size: 9px; letter-spacing: 0.1em; margin-top: 10px; }
+
+/* RECORDS */
+.records-scroll {
+  display: flex; gap: 14px; overflow-x: auto; padding-bottom: 12px;
+  scrollbar-width: thin; scrollbar-color: var(--gold-dk) transparent;
+}
+.rec-card {
+  flex: 0 0 210px; background: var(--bg2);
+  border: 1px solid var(--gold-border); border-radius: var(--radius);
+  padding: 22px 18px; position: relative; overflow: hidden;
+  transition: border-color .3s, box-shadow .3s;
+}
+.rec-card:hover { border-color: rgba(201,168,76,.5); box-shadow: var(--glow); }
+.rec-card::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+.rec-tag {
+  font-family: var(--mono); font-size: 8px; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--gold); margin-bottom: 10px;
+}
+.rec-price { font-family: var(--serif); font-size: 26px; font-weight: 500; color: var(--cream); line-height: 1; margin-bottom: 8px; }
+.rec-item { font-size: 11px; color: var(--text); line-height: 1.45; }
+.rec-badge {
+  position: absolute; top: 10px; right: 10px;
+  background: rgba(201,168,76,.12); border: 1px solid var(--gold-border);
+  border-radius: 3px; padding: 2px 5px;
+  font-family: var(--mono); font-size: 7px; color: var(--gold); letter-spacing: 0.08em;
+}
+
+/* MATRIX */
+.mtbl { width: 100%; border-collapse: collapse; }
+.mtbl th {
+  font-family: var(--mono); font-size: 8px; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--gold); padding: 10px 14px;
+  border-bottom: 1px solid var(--gold-border); text-align: left; font-weight: 400;
+}
+.mtbl td { padding: 10px 14px; border-bottom: 1px solid rgba(201,168,76,.05); font-size: 12px; }
+.mtbl tr:hover td { background: var(--gold-pale); }
+.masset { font-family: var(--serif); font-size: 15px; color: var(--cream); }
+.liq-row { display: flex; gap: 3px; align-items: center; }
+.liq-dot { width: 6px; height: 6px; border-radius: 50%; }
+.lf { background: var(--gold); }
+.le { background: rgba(201,168,76,.15); }
+.rbadge {
+  background: rgba(91,170,126,.1); border: 1px solid rgba(91,170,126,.25);
+  border-radius: 3px; padding: 2px 7px;
+  font-family: var(--mono); font-size: 10px; color: var(--pos); white-space: nowrap;
+}
+.rbadge.vol { background: rgba(201,168,76,.1); border-color: var(--gold-border); color: var(--gold); }
+.risk { font-family: var(--mono); font-size: 9px; padding: 2px 7px; border-radius: 3px; letter-spacing: 0.05em; }
+.risk-l { background: rgba(91,170,126,.1); color: var(--pos); }
+.risk-m { background: rgba(201,168,76,.1); color: var(--gold); }
+.risk-h { background: rgba(192,85,85,.1); color: var(--neg); }
+.risk-vh { background: rgba(192,85,85,.18); color: #e07070; }
+
+/* EMERGING */
+.em-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; }
+.emcard {
+  background: var(--bg2); border: 1px solid var(--gold-border);
+  border-radius: var(--radius); padding: 22px 18px;
+  opacity: 0; transform: translateY(16px);
+}
+.emcard.show { opacity: 1; transform: none; transition: opacity .55s, transform .55s; }
+.em-region { font-family: var(--mono); font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 6px; }
+.em-name { font-family: var(--serif); font-size: 22px; color: var(--cream); margin-bottom: 10px; }
+.em-cur { font-family: var(--mono); font-size: 17px; color: var(--gold-lt); margin-bottom: 3px; }
+.em-proj { font-size: 11px; color: var(--text-dim); margin-bottom: 12px; }
+.em-proj b { color: var(--cream); }
+.em-stat { font-family: var(--mono); font-size: 10px; color: var(--pos); padding: 8px 0; border-top: 1px solid var(--gold-border); }
+.em-notes { font-size: 10px; color: var(--text-dim); line-height: 1.5; margin-top: 8px; }
+
+/* CONSUMER */
+.con-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; }
+.concard {
+  background: var(--bg2); border: 1px solid var(--gold-border);
+  border-radius: var(--radius); padding: 22px;
+  opacity: 0; transform: translateY(16px);
+}
+.concard.show { opacity: 1; transform: none; transition: opacity .55s, transform .55s; }
+.con-lbl { font-family: var(--mono); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 10px; }
+.con-big { font-family: var(--serif); font-size: 36px; font-weight: 300; line-height: 1; margin-bottom: 4px; }
+.con-note { font-size: 11px; color: var(--text-dim); margin-bottom: 6px; }
+.con-delta { font-family: var(--mono); font-size: 10px; }
+
+/* FOOTER */
+footer {
+  border-top: 1px solid var(--gold-border);
+  padding: 24px 48px; display: flex; justify-content: space-between; align-items: center;
+  font-family: var(--mono); font-size: 10px; color: var(--text-dim); letter-spacing: 0.05em;
+}
+
+/* ANIMATIONS */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(22px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes shimmer {
+  0% { background-position: 0% center; }
+  50% { background-position: 100% center; }
+  100% { background-position: 0% center; }
+}
+
+/* RESPONSIVE */
+@media (max-width: 960px) {
+  .page-section, #hero { padding: 48px 20px; }
+  .market-grid, .region-grid, .house-grid, .em-grid { grid-template-columns: repeat(2,1fr); }
+  .watch-layout, .kflii-grid { grid-template-columns: 1fr; }
+  .con-grid { grid-template-columns: repeat(2,1fr); }
+  .hero-kpis { grid-template-columns: 1fr; }
+  nav ul { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <span class="nav-logo">Luxury Intelligence</span>
+  <ul class="nav-links">
+    <li><a href="#markets">Markets</a></li>
+    <li><a href="#watches">Watches</a></li>
+    <li><a href="#kflii">KFLII</a></li>
+    <li><a href="#regions">Regions</a></li>
+    <li><a href="#houses">Houses</a></li>
+    <li><a href="#records">Records</a></li>
+    <li><a href="#matrix">Matrix</a></li>
+    <li><a href="#emerging">Emerging</a></li>
+    <li><a href="#consumer">Consumer</a></li>
+    <li><a href="https://x.com/Eli5defi" target="_blank" rel="noopener" style="color:var(--gold);border:1px solid var(--gold-border);padding:3px 10px;border-radius:3px;letter-spacing:0.06em">Built by eli5defi</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-eyebrow">Global Intelligence Report &nbsp;·&nbsp; February 2025</div>
+  <h1 class="hero-title">Luxury<br><span class="gold-gradient">Intelligence</span></h1>
+  <p class="hero-sub">Global Markets &nbsp;·&nbsp; Collectibles &nbsp;·&nbsp; Watches &nbsp;·&nbsp; Art &nbsp;·&nbsp; Fashion</p>
+  <div class="hero-kpis">
+    <div class="kpi">
+      <div class="kpi-lbl">Total Luxury Market</div>
+      <div class="kpi-val gold">$1.60T</div>
+      <div class="kpi-note">Including experiential &amp; hard luxury</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-lbl">Active Luxury Consumers</div>
+      <div class="kpi-val gold">340M</div>
+      <div class="kpi-note">Down from 400M peak in 2022</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-lbl">Personal Luxury YoY</div>
+      <div class="kpi-val red">-1%</div>
+      <div class="kpi-note">$392B · flat to slightly declining</div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- MARKETS -->
+<section class="page-section" id="markets">
+  <div class="section-label">Market Overview</div>
+  <h2 class="section-title">Global Luxury Categories</h2>
+  <p class="section-sub">2024 market sizes and compound annual growth rates to 2033–2034</p>
+  <div class="market-grid">
+    <div class="mcard"><div class="mcard-icon">👜</div><div class="mcard-cat">Personal Luxury Goods</div><div class="mcard-val">$392B</div><div class="mcard-cagr">+4.4% CAGR → $575B by 2034</div><div class="spark-wrap"><canvas id="sp0"></canvas></div></div>
+    <div class="mcard"><div class="mcard-icon">🏺</div><div class="mcard-cat">Collectibles</div><div class="mcard-val">$306B</div><div class="mcard-cagr">+6.6% CAGR → $535B by 2033</div><div class="spark-wrap"><canvas id="sp1"></canvas></div></div>
+    <div class="mcard"><div class="mcard-icon">🏎️</div><div class="mcard-cat">Luxury Automobiles</div><div class="mcard-val">$600B+</div><div class="mcard-cagr">+5.2% CAGR → $1.1T by 2033</div><div class="spark-wrap"><canvas id="sp2"></canvas></div></div>
+    <div class="mcard"><div class="mcard-icon">🍷</div><div class="mcard-cat">Fine Wine &amp; Spirits</div><div class="mcard-val">$450B</div><div class="mcard-cagr">+4.8% CAGR → $780B by 2033</div><div class="spark-wrap"><canvas id="sp3"></canvas></div></div>
+    <div class="mcard"><div class="mcard-icon">✈️</div><div class="mcard-cat">Private Aviation</div><div class="mcard-val">$26.6B</div><div class="mcard-cagr">+7.5% CAGR → $50.8B by 2034</div><div class="spark-wrap"><canvas id="sp4"></canvas></div></div>
+    <div class="mcard"><div class="mcard-icon">🏆</div><div class="mcard-cat">Sports Memorabilia</div><div class="mcard-val">$38.6B</div><div class="mcard-cagr">+12.1% CAGR → $71B by 2030</div><div class="spark-wrap"><canvas id="sp5"></canvas></div></div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- WATCHES -->
+<section class="page-section" id="watches">
+  <div class="section-label">Watch Market Intelligence</div>
+  <h2 class="section-title">Swiss Watch Maisons 2024</h2>
+  <p class="section-sub">Revenue (USD), market share, average retail price, and annual production volume</p>
+  <div class="watch-layout">
+    <div class="glass" style="overflow-x:auto">
+      <div class="chart-ttl">Brand Rankings by Revenue (All figures in USD)</div>
+      <table class="wtbl">
+        <thead><tr><th>Maison</th><th>Revenue (USD)</th><th>Share</th><th>Avg. Price</th><th>Annual Vol.</th></tr></thead>
+        <tbody>
+          <tr><td><div class="wbrand">Rolex</div></td><td><div class="wrev">$11.87B</div></td><td><span class="sbadge">32%</span></td><td>$14,978</td><td style="color:var(--text-dim);font-family:var(--mono);font-size:11px">1.18M</td></tr>
+          <tr><td><div class="wbrand">Omega</div></td><td><div class="wrev">$2.68B</div></td><td><span class="sbadge">7%</span></td><td>$7,661</td><td style="color:var(--text-dim);font-family:var(--mono);font-size:11px">505K</td></tr>
+          <tr><td><div class="wbrand">Cartier</div></td><td><div class="wrev">$3.56B</div></td><td><span class="sbadge">9.1%</span></td><td>$6,488</td><td style="color:var(--text-dim);font-family:var(--mono);font-size:11px">680K</td></tr>
+          <tr><td><div class="wbrand">Audemars Piguet</div></td><td><div class="wrev">$2.67B</div></td><td><span class="sbadge">6.8%</span></td><td>$55,946</td><td style="color:var(--text-dim);font-family:var(--mono);font-size:11px">51K</td></tr>
+          <tr><td><div class="wbrand">Patek Philippe</div></td><td><div class="wrev">$2.58B</div></td><td><span class="sbadge">6.6%</span></td><td>$49,726</td><td style="color:var(--text-dim);font-family:var(--mono);font-size:11px">72K</td></tr>
+          <tr><td><div class="wbrand">Richard Mille</div></td><td><div class="wrev">$1.74B</div></td><td><span class="sbadge">4.4%</span></td><td>$310,000</td><td style="color:var(--text-dim);font-family:var(--mono);font-size:11px">5.3K</td></tr>
+          <tr><td><div class="wbrand">Jaeger-LeCoultre</div></td><td><div class="wrev">$952M</div></td><td><span class="sbadge">2.7%</span></td><td>$14,500</td><td style="color:var(--text-dim);font-family:var(--mono);font-size:11px">65K</td></tr>
+          <tr><td><div class="wbrand">Vacheron Constantin</div></td><td><div class="wrev">$1.06B</div></td><td><span class="sbadge">2.7%</span></td><td>$44,340</td><td style="color:var(--text-dim);font-family:var(--mono);font-size:11px">31K</td></tr>
+          <tr><td><div class="wbrand">IWC Schaffhausen</div></td><td><div class="wrev">$784M</div></td><td><span class="sbadge">2.2%</span></td><td>$9,800</td><td style="color:var(--text-dim);font-family:var(--mono);font-size:11px">80K</td></tr>
+          <tr><td><div class="wbrand">Hublot</div></td><td><div class="wrev">$728M</div></td><td><span class="sbadge">2.1%</span></td><td>$18,200</td><td style="color:var(--text-dim);font-family:var(--mono);font-size:11px">40K</td></tr>
+          <tr><td><div class="wbrand">TAG Heuer</div></td><td><div class="wrev">$813M</div></td><td><span class="sbadge">—</span></td><td>$2,840</td><td style="color:var(--text-dim);font-family:var(--mono);font-size:11px">380K</td></tr>
+          <tr><td><div class="wbrand">Tudor</div></td><td><div class="wrev">$661M</div></td><td><span class="sbadge">1.9%</span></td><td>$4,200</td><td style="color:var(--text-dim);font-family:var(--mono);font-size:11px">157K</td></tr>
+          <tr><td><div class="wbrand">Breguet</div></td><td><div class="wrev">$582M</div></td><td><span class="sbadge">1.7%</span></td><td>$42,000</td><td style="color:var(--text-dim);font-family:var(--mono);font-size:11px">14K</td></tr>
+          <tr><td><div class="wbrand">Panerai</div></td><td><div class="wrev">$571M</div></td><td><span class="sbadge">1.6%</span></td><td>$11,500</td><td style="color:var(--text-dim);font-family:var(--mono);font-size:11px">50K</td></tr>
+          <tr><td><div class="wbrand">Chopard</div></td><td><div class="wrev">$448M</div></td><td><span class="sbadge">1.3%</span></td><td>$15,800</td><td style="color:var(--text-dim);font-family:var(--mono);font-size:11px">28K</td></tr>
+          <tr><td><div class="wbrand">Blancpain</div></td><td><div class="wrev">$336M</div></td><td><span class="sbadge">1.0%</span></td><td>$24,000</td><td style="color:var(--text-dim);font-family:var(--mono);font-size:11px">14K</td></tr>
+          <tr><td><div class="wbrand">A. Lange &amp; Söhne</div></td><td><div class="wrev">$202M</div></td><td><span class="sbadge">0.6%</span></td><td>$48,000</td><td style="color:var(--text-dim);font-family:var(--mono);font-size:11px">4K</td></tr>
+          <tr><td><div class="wbrand">Girard-Perregaux</div></td><td><div class="wrev">$140M</div></td><td><span class="sbadge">0.4%</span></td><td>$18,500</td><td style="color:var(--text-dim);font-family:var(--mono);font-size:11px">7K</td></tr>
+          <tr><td><div class="wbrand">Grand Seiko</div></td><td><div class="wrev">$200M</div></td><td><span class="sbadge">—</span></td><td>$5,800</td><td style="color:var(--text-dim);font-family:var(--mono);font-size:11px">35K</td></tr>
+          <tr><td><div class="wbrand">F.P. Journe</div></td><td><div class="wrev">$80M</div></td><td><span class="sbadge">0.2%</span></td><td>$95,000</td><td style="color:var(--text-dim);font-family:var(--mono);font-size:11px">900</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="glass">
+      <div class="chart-ttl">5-Year Price Appreciation (2019–2024)</div>
+      <div style="height:480px;position:relative"><canvas id="watchAppChart"></canvas></div>
+    </div>
+  </div>
+
+  <!-- Iconic References -->
+  <div class="glass" style="margin-top:20px">
+    <div class="chart-ttl" style="margin-bottom:20px">Key Investment References &amp; Flagship Models</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px">
+
+      <div style="border:1px solid var(--gold-border);border-radius:6px;padding:16px;background:var(--bg)">
+        <div style="font-family:var(--serif);font-size:16px;color:var(--cream);margin-bottom:10px">Rolex</div>
+        <div style="display:flex;flex-direction:column;gap:5px;font-size:11px">
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">Submariner Date 126610LN</span><span style="font-family:var(--mono);color:var(--gold-lt)">$14K–$22K</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">Daytona 116500LN (Panda)</span><span style="font-family:var(--mono);color:var(--gold-lt)">$27K–$55K</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">GMT-Master II 126710BLNR</span><span style="font-family:var(--mono);color:var(--gold-lt)">$15K–$25K</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">Day-Date 40 Platinum</span><span style="font-family:var(--mono);color:var(--gold-lt)">$55K–$120K</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">Explorer II 226570</span><span style="font-family:var(--mono);color:var(--gold-lt)">$8K–$11K</span></div>
+        </div>
+      </div>
+
+      <div style="border:1px solid var(--gold-border);border-radius:6px;padding:16px;background:var(--bg)">
+        <div style="font-family:var(--serif);font-size:16px;color:var(--cream);margin-bottom:10px">Patek Philippe</div>
+        <div style="display:flex;flex-direction:column;gap:5px;font-size:11px">
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">Nautilus 5711/1A Steel</span><span style="font-family:var(--mono);color:var(--gold-lt)">$120K–$200K</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">Aquanaut 5168G-010</span><span style="font-family:var(--mono);color:var(--gold-lt)">$80K–$120K</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">Calatrava 5196P Platinum</span><span style="font-family:var(--mono);color:var(--gold-lt)">$45K–$70K</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">Ref. 2499 (vintage)</span><span style="font-family:var(--mono);color:var(--gold-lt)">$500K–$5M+</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">Grand Complications 5959P</span><span style="font-family:var(--mono);color:var(--gold-lt)">$400K–$900K</span></div>
+        </div>
+      </div>
+
+      <div style="border:1px solid var(--gold-border);border-radius:6px;padding:16px;background:var(--bg)">
+        <div style="font-family:var(--serif);font-size:16px;color:var(--cream);margin-bottom:10px">Audemars Piguet</div>
+        <div style="display:flex;flex-direction:column;gap:5px;font-size:11px">
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">Royal Oak 15202ST Jumbo</span><span style="font-family:var(--mono);color:var(--gold-lt)">$80K–$180K</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">Royal Oak 15400ST 41mm</span><span style="font-family:var(--mono);color:var(--gold-lt)">$30K–$60K</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">RO Offshore 26237ST</span><span style="font-family:var(--mono);color:var(--gold-lt)">$50K–$120K</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">Concept Flying Tourbillon</span><span style="font-family:var(--mono);color:var(--gold-lt)">$400K–$1M+</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">Millenary 4101</span><span style="font-family:var(--mono);color:var(--gold-lt)">$25K–$45K</span></div>
+        </div>
+      </div>
+
+      <div style="border:1px solid var(--gold-border);border-radius:6px;padding:16px;background:var(--bg)">
+        <div style="font-family:var(--serif);font-size:16px;color:var(--cream);margin-bottom:10px">Richard Mille</div>
+        <div style="display:flex;flex-direction:column;gap:5px;font-size:11px">
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">RM 11-03 Flyback Chrono</span><span style="font-family:var(--mono);color:var(--gold-lt)">$180K–$260K</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">RM 27-04 Tourbillon (Nadal)</span><span style="font-family:var(--mono);color:var(--gold-lt)">$800K–$1.5M</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">RM 67-02 Athletic</span><span style="font-family:var(--mono);color:var(--gold-lt)">$95K–$150K</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">RM 50-03 McLaren F1</span><span style="font-family:var(--mono);color:var(--gold-lt)">$900K–$1.8M</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">RM 35-02 RAFA (Carbon)</span><span style="font-family:var(--mono);color:var(--gold-lt)">$130K–$200K</span></div>
+        </div>
+      </div>
+
+      <div style="border:1px solid var(--gold-border);border-radius:6px;padding:16px;background:var(--bg)">
+        <div style="font-family:var(--serif);font-size:16px;color:var(--cream);margin-bottom:10px">Vacheron Constantin</div>
+        <div style="display:flex;flex-direction:column;gap:5px;font-size:11px">
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">Overseas 4500V/110A</span><span style="font-family:var(--mono);color:var(--gold-lt)">$28K–$55K</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">Patrimony Traditionnelle</span><span style="font-family:var(--mono);color:var(--gold-lt)">$22K–$45K</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">Historiques American 1921</span><span style="font-family:var(--mono);color:var(--gold-lt)">$40K–$75K</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">Les Cabinotiers Tourbillon</span><span style="font-family:var(--mono);color:var(--gold-lt)">$500K+</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">Egérie Moon Phase</span><span style="font-family:var(--mono);color:var(--gold-lt)">$35K–$60K</span></div>
+        </div>
+      </div>
+
+      <div style="border:1px solid var(--gold-border);border-radius:6px;padding:16px;background:var(--bg)">
+        <div style="font-family:var(--serif);font-size:16px;color:var(--cream);margin-bottom:10px">Cartier</div>
+        <div style="display:flex;flex-direction:column;gap:5px;font-size:11px">
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">Santos 100 XL Steel</span><span style="font-family:var(--mono);color:var(--gold-lt)">$7K–$12K</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">Tank Louis Cartier Platinum</span><span style="font-family:var(--mono);color:var(--gold-lt)">$12K–$22K</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">Ballon Bleu 42mm Steel</span><span style="font-family:var(--mono);color:var(--gold-lt)">$6K–$10K</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">Rotonde Minute Repeater</span><span style="font-family:var(--mono);color:var(--gold-lt)">$100K–$250K</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">Pasha de Cartier 41mm</span><span style="font-family:var(--mono);color:var(--gold-lt)">$8K–$14K</span></div>
+        </div>
+      </div>
+
+      <div style="border:1px solid var(--gold-border);border-radius:6px;padding:16px;background:var(--bg)">
+        <div style="font-family:var(--serif);font-size:16px;color:var(--cream);margin-bottom:10px">Omega</div>
+        <div style="display:flex;flex-direction:column;gap:5px;font-size:11px">
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">Speedmaster Pro "Moonwatch"</span><span style="font-family:var(--mono);color:var(--gold-lt)">$6.5K–$12K</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">Seamaster Aqua Terra 150M</span><span style="font-family:var(--mono);color:var(--gold-lt)">$5.5K–$8K</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">Constellation Globemaster</span><span style="font-family:var(--mono);color:var(--gold-lt)">$5K–$9K</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">De Ville Tourbillon Co-Axial</span><span style="font-family:var(--mono);color:var(--gold-lt)">$30K–$60K</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">Speedmaster Silver Snoopy</span><span style="font-family:var(--mono);color:var(--gold-lt)">$10K–$16K</span></div>
+        </div>
+      </div>
+
+      <div style="border:1px solid var(--gold-border);border-radius:6px;padding:16px;background:var(--bg)">
+        <div style="font-family:var(--serif);font-size:16px;color:var(--cream);margin-bottom:10px">A. Lange &amp; Söhne</div>
+        <div style="display:flex;flex-direction:column;gap:5px;font-size:11px">
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">Lange 1 Gold 41.9mm</span><span style="font-family:var(--mono);color:var(--gold-lt)">$35K–$65K</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">Datograph Up/Down Platinum</span><span style="font-family:var(--mono);color:var(--gold-lt)">$60K–$120K</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">Zeitwerk Decimal Strike</span><span style="font-family:var(--mono);color:var(--gold-lt)">$180K–$280K</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">1815 Tourbillon Handwerkskunst</span><span style="font-family:var(--mono);color:var(--gold-lt)">$350K–$600K</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">Saxonia Thin 40.5mm</span><span style="font-family:var(--mono);color:var(--gold-lt)">$18K–$30K</span></div>
+        </div>
+      </div>
+
+      <div style="border:1px solid var(--gold-border);border-radius:6px;padding:16px;background:var(--bg)">
+        <div style="font-family:var(--serif);font-size:16px;color:var(--cream);margin-bottom:10px">Jaeger-LeCoultre</div>
+        <div style="display:flex;flex-direction:column;gap:5px;font-size:11px">
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">Reverso Classic Large</span><span style="font-family:var(--mono);color:var(--gold-lt)">$8K–$18K</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">Master Ultra Thin Perpetual</span><span style="font-family:var(--mono);color:var(--gold-lt)">$20K–$40K</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">Atmos Clock (Perpetua 3)</span><span style="font-family:var(--mono);color:var(--gold-lt)">$8K–$30K</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">Hybris Mechanica Squelette</span><span style="font-family:var(--mono);color:var(--gold-lt)">$800K+</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">Polaris Mariner Memovox</span><span style="font-family:var(--mono);color:var(--gold-lt)">$12K–$22K</span></div>
+        </div>
+      </div>
+
+      <div style="border:1px solid var(--gold-border);border-radius:6px;padding:16px;background:var(--bg)">
+        <div style="font-family:var(--serif);font-size:16px;color:var(--cream);margin-bottom:10px">IWC Schaffhausen</div>
+        <div style="display:flex;flex-direction:column;gap:5px;font-size:11px">
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">Big Pilot's Watch 43 AZ&amp;Z</span><span style="font-family:var(--mono);color:var(--gold-lt)">$10K–$20K</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">Portugieser Chrono Classic</span><span style="font-family:var(--mono);color:var(--gold-lt)">$12K–$25K</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">Pilot's Watch Perpetual Cal.</span><span style="font-family:var(--mono);color:var(--gold-lt)">$18K–$35K</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">Aquatimer Deep Three</span><span style="font-family:var(--mono);color:var(--gold-lt)">$50K–$90K</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">Da Vinci Perpetual Calendar</span><span style="font-family:var(--mono);color:var(--gold-lt)">$22K–$45K</span></div>
+        </div>
+      </div>
+
+      <div style="border:1px solid var(--gold-border);border-radius:6px;padding:16px;background:var(--bg)">
+        <div style="font-family:var(--serif);font-size:16px;color:var(--cream);margin-bottom:10px">Hublot</div>
+        <div style="display:flex;flex-direction:column;gap:5px;font-size:11px">
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">Big Bang Unico 44mm Magic Gold</span><span style="font-family:var(--mono);color:var(--gold-lt)">$30K–$55K</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">Classic Fusion Titanium 42mm</span><span style="font-family:var(--mono);color:var(--gold-lt)">$7K–$12K</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">MP-11 Power Reserve 14 Days</span><span style="font-family:var(--mono);color:var(--gold-lt)">$65K–$100K</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">Spirit of Big Bang Tourbillon</span><span style="font-family:var(--mono);color:var(--gold-lt)">$90K–$160K</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">Big Bang Ferrari (limited)</span><span style="font-family:var(--mono);color:var(--gold-lt)">$25K–$60K</span></div>
+        </div>
+      </div>
+
+      <div style="border:1px solid var(--gold-border);border-radius:6px;padding:16px;background:var(--bg)">
+        <div style="font-family:var(--serif);font-size:16px;color:var(--cream);margin-bottom:10px">F.P. Journe</div>
+        <div style="display:flex;flex-direction:column;gap:5px;font-size:11px">
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">Chronomètre Bleu Tantalum</span><span style="font-family:var(--mono);color:var(--gold-lt)">$45K–$80K</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">Tourbillon Souverain (Sold 2024)</span><span style="font-family:var(--mono);color:var(--gold-lt)">$8.3M</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">FFC Prototype (Sold Dec 2024)</span><span style="font-family:var(--mono);color:var(--gold-lt)">$10.8M</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">Resonance Platinum</span><span style="font-family:var(--mono);color:var(--gold-lt)">$120K–$200K</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">Octa Sport Annual Calendar</span><span style="font-family:var(--mono);color:var(--gold-lt)">$30K–$55K</span></div>
+        </div>
+      </div>
+
+      <div style="border:1px solid var(--gold-border);border-radius:6px;padding:16px;background:var(--bg)">
+        <div style="font-family:var(--serif);font-size:16px;color:var(--cream);margin-bottom:10px">Tudor</div>
+        <div style="display:flex;flex-direction:column;gap:5px;font-size:11px">
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">Black Bay 58 Bronze</span><span style="font-family:var(--mono);color:var(--gold-lt)">$3.8K–$5.5K</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">Pelagos FXD Anti-Reflective</span><span style="font-family:var(--mono);color:var(--gold-lt)">$4.2K–$6K</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">Black Bay Chrono S&amp;G</span><span style="font-family:var(--mono);color:var(--gold-lt)">$5.5K–$8K</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">Ranger 39mm 2024</span><span style="font-family:var(--mono);color:var(--gold-lt)">$3.2K–$4K</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">Royal Homage (limited ed.)</span><span style="font-family:var(--mono);color:var(--gold-lt)">$6K–$9K</span></div>
+        </div>
+      </div>
+
+      <div style="border:1px solid var(--gold-border);border-radius:6px;padding:16px;background:var(--bg)">
+        <div style="font-family:var(--serif);font-size:16px;color:var(--cream);margin-bottom:10px">Panerai</div>
+        <div style="display:flex;flex-direction:column;gap:5px;font-size:11px">
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">Luminor Marina PAM01392</span><span style="font-family:var(--mono);color:var(--gold-lt)">$8K–$13K</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">Radiomir 1940 3 Days PAM00514</span><span style="font-family:var(--mono);color:var(--gold-lt)">$10K–$18K</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">Submersible CarboTech 47mm</span><span style="font-family:var(--mono);color:var(--gold-lt)">$15K–$25K</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">Luminor 1950 GMT Goldtech</span><span style="font-family:var(--mono);color:var(--gold-lt)">$40K–$65K</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">LAB-ID Carbotech 56mm</span><span style="font-family:var(--mono);color:var(--gold-lt)">$90K–$130K</span></div>
+        </div>
+      </div>
+
+      <div style="border:1px solid var(--gold-border);border-radius:6px;padding:16px;background:var(--bg)">
+        <div style="font-family:var(--serif);font-size:16px;color:var(--cream);margin-bottom:10px">Grand Seiko</div>
+        <div style="display:flex;flex-direction:column;gap:5px;font-size:11px">
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">SBGA211 "Snowflake" Spring Drive</span><span style="font-family:var(--mono);color:var(--gold-lt)">$5.8K–$9K</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">SLGA009 Kodo Constant Force</span><span style="font-family:var(--mono);color:var(--gold-lt)">$65K–$100K</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">SBGJ271 Hi-Beat 36000 GMT</span><span style="font-family:var(--mono);color:var(--gold-lt)">$4.5K–$6.5K</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">SBGA413 Seasons "Summer"</span><span style="font-family:var(--mono);color:var(--gold-lt)">$6K–$8.5K</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text)">Elegance Limited Editions</span><span style="font-family:var(--mono);color:var(--gold-lt)">$10K–$25K</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- KFLII -->
+<section class="page-section" id="kflii">
+  <div class="section-label">Knight Frank Luxury Investment Index</div>
+  <h2 class="section-title">Asset Class Performance</h2>
+  <p class="section-sub">12-month and 10-year returns across luxury collectible categories · KFLII Overall 2024: -3.3%</p>
+  <div class="kflii-grid">
+    <div class="glass">
+      <div class="chart-ttl">12-Month Returns 2024</div>
+      <div style="height:350px;position:relative"><canvas id="kflii12"></canvas></div>
+    </div>
+    <div class="glass">
+      <div class="chart-ttl">10-Year Returns (2014–2024)</div>
+      <div style="height:350px;position:relative"><canvas id="kflii10"></canvas></div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- REGIONS -->
+<section class="page-section" id="regions">
+  <div class="section-label">Regional Performance</div>
+  <h2 class="section-title">Geographic Market Dynamics 2024</h2>
+  <p class="section-sub">Year-over-year luxury spending growth by region</p>
+  <div class="region-grid">
+    <div class="rcard boom"><div class="rlbl">India</div><div class="rpct c-pos">+35%</div><div class="rstatus c-pos">🔥 Booming</div></div>
+    <div class="rcard up"><div class="rlbl">Japan</div><div class="rpct c-pos">+15%</div><div class="rstatus c-pos">⬆ Strong</div></div>
+    <div class="rcard up"><div class="rlbl">Southeast Asia</div><div class="rpct c-pos">+8%</div><div class="rstatus c-pos">⬆ Growing</div></div>
+    <div class="rcard up"><div class="rlbl">Middle East</div><div class="rpct c-pos">+6%</div><div class="rstatus c-pos">⬆ Growing</div></div>
+    <div class="rcard"><div class="rlbl">Americas</div><div class="rpct c-neu">+2%</div><div class="rstatus c-neu">→ Stable</div></div>
+    <div class="rcard"><div class="rlbl">Europe</div><div class="rpct c-neu">0%</div><div class="rstatus c-neu">→ Flat</div></div>
+    <div class="rcard dn"><div class="rlbl">China Mainland</div><div class="rpct c-neg">-20%</div><div class="rstatus c-neg">⬇ Declining</div></div>
+    <div class="rcard gold-special"><div class="rlbl">Hermès · Middle East</div><div class="rpct c-gold">+109.6%</div><div class="rstatus c-gold">★ Record Growth</div></div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- HOUSES -->
+<section class="page-section" id="houses">
+  <div class="section-label">Major House Performance</div>
+  <h2 class="section-title">Luxury Conglomerates 2024</h2>
+  <p class="section-sub">Revenue, operating margin, and strategic position across the major groups</p>
+  <div class="house-grid">
+    <div class="hcard" style="border-color:rgba(91,170,126,.3)">
+      <div class="hbrand">Hermès</div>
+      <div class="hparent">Paris · Independent</div>
+      <div class="hrev">$16.4B</div>
+      <div class="hgrowth c-pos">▲ +13% reported / +15% constant</div>
+      <div class="hmargin">Op. Margin: <b>40.5%</b> · Net Cash $13.0B</div>
+      <div style="font-size:10px;color:var(--text-dim);margin-top:8px">Leather Goods +18.3% · Middle East +109.6%</div>
+      <div class="hstatus c-pos"><span class="hdot dot-g"></span>OUTPERFORMER</div>
+    </div>
+    <div class="hcard" style="border-color:rgba(201,168,76,.28)">
+      <div class="hbrand">LVMH</div>
+      <div class="hparent">Paris · 75 Maisons</div>
+      <div class="hrev">$91.5B</div>
+      <div class="hgrowth c-neg">▼ -2% revenue · -14% profit</div>
+      <div class="hmargin">Recurring Profit: <b>$21.1B</b> · FCF +29%</div>
+      <div style="font-size:10px;color:var(--text-dim);margin-top:8px">Fashion -1% · Retailing +6% · Wines -8%</div>
+      <div class="hstatus c-neu"><span class="hdot dot-y"></span>CAUTIOUS HOLD</div>
+    </div>
+    <div class="hcard" style="border-color:rgba(91,170,126,.3)">
+      <div class="hbrand">Richemont</div>
+      <div class="hparent">Geneva · Jewelry Focus</div>
+      <div class="hrev">$23.1B</div>
+      <div class="hgrowth c-pos">▲ +4% total · Jewelry +8%</div>
+      <div class="hmargin">Op. Margin: <b>31.9%</b> · Net Cash $8.2B</div>
+      <div style="font-size:10px;color:var(--text-dim);margin-top:8px">Cartier, Van Cleef driving growth</div>
+      <div class="hstatus c-pos"><span class="hdot dot-g"></span>OUTPERFORMER</div>
+    </div>
+    <div class="hcard" style="border-color:rgba(192,85,85,.3)">
+      <div class="hbrand">Kering</div>
+      <div class="hparent">Paris · Gucci Parent</div>
+      <div class="hrev">$18.6B</div>
+      <div class="hgrowth c-neg">▼ -12% revenue · -46% profit</div>
+      <div class="hmargin">Op. Margin: <b style="color:var(--neg)">14.9%</b> · Stock -42%</div>
+      <div style="font-size:10px;color:var(--text-dim);margin-top:8px">Gucci -23% · Only BV +4%</div>
+      <div class="hstatus c-neg"><span class="hdot dot-n"></span>UNDERPERFORMER</div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- RECORDS -->
+<section class="page-section" id="records">
+  <div class="section-label">Auction Records</div>
+  <h2 class="section-title">Record-Breaking Sales 2024–2025</h2>
+  <p class="section-sub">The most significant transactions across luxury collectible categories</p>
+  <div class="records-scroll">
+    <div class="rec-card"><div class="rec-badge">2024</div><div class="rec-tag">Fine Art</div><div class="rec-price">$236.4M</div><div class="rec-item">Gustav Klimt<br>"Bildnis Elisabeth Lederer"</div></div>
+    <div class="rec-card"><div class="rec-badge">2024</div><div class="rec-tag">Classic Cars</div><div class="rec-price">$53.9M</div><div class="rec-item">1954 Mercedes-Benz W 196 R<br>2nd most expensive car ever</div></div>
+    <div class="rec-card"><div class="rec-badge">2024 · All-time</div><div class="rec-tag">Sports Memorabilia</div><div class="rec-price">$24.12M</div><div class="rec-item">Babe Ruth "Called Shot" Jersey<br>Most expensive sports item ever</div></div>
+    <div class="rec-card"><div class="rec-badge">Nov 2024</div><div class="rec-tag">Watches</div><div class="rec-price">$17.6M</div><div class="rec-item">Patek Philippe Ref. 1518<br>Steel — Phillips Auctions</div></div>
+    <div class="rec-card"><div class="rec-badge">2025 · All-time</div><div class="rec-tag">Trading Cards</div><div class="rec-price">$12.932M</div><div class="rec-item">Jordan-Kobe Dual Logoman Card<br>Most expensive sports card ever</div></div>
+    <div class="rec-card"><div class="rec-badge">Dec 2024</div><div class="rec-tag">Watches</div><div class="rec-price">$10.8M</div><div class="rec-item">F.P. Journe FFC Prototype<br>Phillips Dec 2024</div></div>
+    <div class="rec-card"><div class="rec-badge">2024</div><div class="rec-tag">Handbags</div><div class="rec-price">$10.1M</div><div class="rec-item">Jane Birkin's Original<br>Hermès Birkin Bag</div></div>
+    <div class="rec-card"><div class="rec-badge">2024</div><div class="rec-tag">Musical Instruments</div><div class="rec-price">$6.01M</div><div class="rec-item">Kurt Cobain's 1959<br>Martin D-18E Guitar</div></div>
+    <div class="rec-card"><div class="rec-badge">2024</div><div class="rec-tag">Watch · Independent</div><div class="rec-price">$8.3M</div><div class="rec-item">F.P. Journe Tourbillon Souverain<br>Phillips Nov 2024</div></div>
+    <div class="rec-card"><div class="rec-badge">2024 · Record bottle</div><div class="rec-tag">Rare Spirits</div><div class="rec-price">$2.7M</div><div class="rec-item">The Macallan 1926<br>Valerio Adami Label</div></div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- MATRIX -->
+<section class="page-section" id="matrix">
+  <div class="section-label">Investment Comparison</div>
+  <h2 class="section-title">Luxury Asset Investment Matrix</h2>
+  <p class="section-sub">Liquidity, return potential, and risk profile by asset class</p>
+  <div class="glass">
+    <table class="mtbl">
+      <thead>
+        <tr><th>Asset Class</th><th>Liquidity</th><th>Annual Return</th><th>Risk</th><th>Category</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><div class="masset">Trading Cards</div></td><td><div class="liq-row"><div class="liq-dot lf"></div><div class="liq-dot lf"></div><div class="liq-dot lf"></div><div class="liq-dot lf"></div><div class="liq-dot le"></div></div></td><td><span class="rbadge">15–30% / yr</span></td><td><span class="risk risk-m">Moderate</span></td><td style="font-family:var(--mono);font-size:10px;color:var(--text-dim)">Collectibles</td></tr>
+        <tr><td><div class="masset">Sports Memorabilia</div></td><td><div class="liq-row"><div class="liq-dot lf"></div><div class="liq-dot lf"></div><div class="liq-dot lf"></div><div class="liq-dot lf"></div><div class="liq-dot le"></div></div></td><td><span class="rbadge">10–20% / yr</span></td><td><span class="risk risk-m">Moderate</span></td><td style="font-family:var(--mono);font-size:10px;color:var(--text-dim)">Collectibles</td></tr>
+        <tr><td><div class="masset">Vintage Toys</div></td><td><div class="liq-row"><div class="liq-dot lf"></div><div class="liq-dot lf"></div><div class="liq-dot lf"></div><div class="liq-dot le"></div><div class="liq-dot le"></div></div></td><td><span class="rbadge">10–25% / yr</span></td><td><span class="risk risk-m">Moderate</span></td><td style="font-family:var(--mono);font-size:10px;color:var(--text-dim)">Collectibles</td></tr>
+        <tr><td><div class="masset">Luxury Watches</div></td><td><div class="liq-row"><div class="liq-dot lf"></div><div class="liq-dot lf"></div><div class="liq-dot lf"></div><div class="liq-dot lf"></div><div class="liq-dot lf"></div></div></td><td><span class="rbadge">7–12% / yr</span></td><td><span class="risk risk-l">Low–Mod</span></td><td style="font-family:var(--mono);font-size:10px;color:var(--text-dim)">Hard Luxury</td></tr>
+        <tr><td><div class="masset">Fine Jewelry</div></td><td><div class="liq-row"><div class="liq-dot lf"></div><div class="liq-dot lf"></div><div class="liq-dot lf"></div><div class="liq-dot lf"></div><div class="liq-dot lf"></div></div></td><td><span class="rbadge">7–12% / yr</span></td><td><span class="risk risk-l">Low</span></td><td style="font-family:var(--mono);font-size:10px;color:var(--text-dim)">Hard Luxury</td></tr>
+        <tr><td><div class="masset">Rare Coins</div></td><td><div class="liq-row"><div class="liq-dot lf"></div><div class="liq-dot lf"></div><div class="liq-dot lf"></div><div class="liq-dot lf"></div><div class="liq-dot le"></div></div></td><td><span class="rbadge">7–12% / yr</span></td><td><span class="risk risk-l">Low</span></td><td style="font-family:var(--mono);font-size:10px;color:var(--text-dim)">Numismatics</td></tr>
+        <tr><td><div class="masset">Fine Wine &amp; Spirits</div></td><td><div class="liq-row"><div class="liq-dot lf"></div><div class="liq-dot lf"></div><div class="liq-dot lf"></div><div class="liq-dot le"></div><div class="liq-dot le"></div></div></td><td><span class="rbadge">5–15% / yr</span></td><td><span class="risk risk-m">Moderate</span></td><td style="font-family:var(--mono);font-size:10px;color:var(--text-dim)">Consumables</td></tr>
+        <tr><td><div class="masset">Classic Cars</div></td><td><div class="liq-row"><div class="liq-dot lf"></div><div class="liq-dot lf"></div><div class="liq-dot lf"></div><div class="liq-dot le"></div><div class="liq-dot le"></div></div></td><td><span class="rbadge">3–8% / yr</span></td><td><span class="risk risk-h">High</span></td><td style="font-family:var(--mono);font-size:10px;color:var(--text-dim)">Collectibles</td></tr>
+        <tr><td><div class="masset">Fine Art</div></td><td><div class="liq-row"><div class="liq-dot lf"></div><div class="liq-dot lf"></div><div class="liq-dot lf"></div><div class="liq-dot le"></div><div class="liq-dot le"></div></div></td><td><span class="rbadge vol">Variable</span></td><td><span class="risk risk-h">High</span></td><td style="font-family:var(--mono);font-size:10px;color:var(--text-dim)">Art Market</td></tr>
+        <tr><td><div class="masset">NFT Collectibles</div></td><td><div class="liq-row"><div class="liq-dot lf"></div><div class="liq-dot lf"></div><div class="liq-dot lf"></div><div class="liq-dot lf"></div><div class="liq-dot lf"></div></div></td><td><span class="rbadge vol">Volatile</span></td><td><span class="risk risk-vh">Very High</span></td><td style="font-family:var(--mono);font-size:10px;color:var(--text-dim)">Digital</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- EMERGING -->
+<section class="page-section" id="emerging">
+  <div class="section-label">Emerging Markets</div>
+  <h2 class="section-title">The "Fresh Markets" Thesis</h2>
+  <p class="section-sub">ME + LatAm + SEA + India + Africa = $49B in 2025 — matching all of Mainland China</p>
+  <div class="em-grid">
+    <div class="emcard">
+      <div class="em-region">South Asia</div>
+      <div class="em-name">India</div>
+      <div class="em-cur">$17.67B</div>
+      <div class="em-proj">→ <b>$85B+ by 2030</b></div>
+      <div class="em-stat">74% CAGR projected</div>
+      <div class="em-notes">500M affluent consumers by 2030 · 84% plan to increase luxury spend · 27 new intl brands entered 2024 · Luxury vehicles all-time high 50K units</div>
+    </div>
+    <div class="emcard">
+      <div class="em-region">Gulf Region</div>
+      <div class="em-name">Middle East</div>
+      <div class="em-cur">$12.8B</div>
+      <div class="em-proj">→ <b>$15B by 2027</b></div>
+      <div class="em-stat">+6% YoY · 6,700 new HNWIs in UAE</div>
+      <div class="em-notes">Dubai Mall 111M visitors · 90+ new store openings · 8 luxury malls planned by 2027 · UAE world's highest net HNWI inflow</div>
+    </div>
+    <div class="emcard">
+      <div class="em-region">Sub-Saharan</div>
+      <div class="em-name">Africa</div>
+      <div class="em-cur">+27.86% YoY</div>
+      <div class="em-proj">+594% total growth since 2019</div>
+      <div class="em-stat">4.1% GDP growth forecast 2025</div>
+      <div class="em-notes">Rolex achieving 126.5% of retail in resale · LV + Gucci search share fell from 30% to 21% as consumers diversify</div>
+    </div>
+    <div class="emcard">
+      <div class="em-region">ASEAN</div>
+      <div class="em-name">SE Asia</div>
+      <div class="em-cur">$10.7B</div>
+      <div class="em-proj">→ <b>$15.8B by 2033</b></div>
+      <div class="em-stat">4.38% CAGR · Singapore 300K+ millionaires</div>
+      <div class="em-notes">83% interested in Asian luxury labels · 81% believe regional brands outperform Western in innovation</div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- CONSUMER -->
+<section class="page-section" id="consumer">
+  <div class="section-label">Consumer Shifts</div>
+  <h2 class="section-title">The Great Market Contraction</h2>
+  <p class="section-sub">Structural shifts reshaping who buys luxury and how the market concentrates upward</p>
+  <div class="con-grid">
+    <div class="concard">
+      <div class="con-lbl">Active Consumer Base</div>
+      <div class="con-big c-neg">340M</div>
+      <div class="con-note">Down from 400M peak in 2022</div>
+      <div class="con-delta c-neg">▼ 60M consumers exited market</div>
+    </div>
+    <div class="concard">
+      <div class="con-lbl">VIC Dominance (Top 2%)</div>
+      <div class="con-big c-gold" style="color:var(--gold-lt)">45%</div>
+      <div class="con-note">Top 2% of customers = 45% of all purchases</div>
+      <div class="con-delta c-pos">▲ Up from 35% share in 2021</div>
+    </div>
+    <div class="concard">
+      <div class="con-lbl">Industry EBIT Margins</div>
+      <div class="con-big c-neg">15–16%</div>
+      <div class="con-note">Down from 23% peak — near crisis levels</div>
+      <div class="con-delta c-neg">▼ €100B enterprise value lost</div>
+    </div>
+    <div class="concard">
+      <div class="con-lbl">Lab-Grown Diamond Price</div>
+      <div class="con-big c-neg">$168</div>
+      <div class="con-note">Per carat in 2025 — was $4,000 in 2018</div>
+      <div class="con-delta c-neg">▼ -96% price decline in 7 years</div>
+    </div>
+    <div class="concard">
+      <div class="con-lbl">Online Luxury Share</div>
+      <div class="con-big" style="color:var(--gold-lt)">15.5%</div>
+      <div class="con-note">Growing to 20%+ by 2030</div>
+      <div class="con-delta c-pos">▲ 17.1% projected by 2025</div>
+    </div>
+    <div class="concard">
+      <div class="con-lbl">Gen Z + Millennial Spending</div>
+      <div class="con-big" style="color:var(--cream)">$9.8T</div>
+      <div class="con-note">Combined spending power by 2025</div>
+      <div class="con-delta c-pos">▲ $12.8T by 2030 · 84% view luxury as experience</div>
+    </div>
+  </div>
+  <!-- Counterfeit Callout -->
+  <div class="glass" style="margin-top:16px;display:flex;gap:32px;flex-wrap:wrap;align-items:center">
+    <div>
+      <div class="con-lbl">Global Counterfeit Market</div>
+      <div style="font-family:var(--serif);font-size:40px;color:var(--neg);line-height:1">$467B</div>
+      <div style="font-size:11px;color:var(--text-dim);margin-top:4px">60–70% is luxury goods</div>
+    </div>
+    <div style="width:1px;height:56px;background:var(--gold-border)"></div>
+    <div>
+      <div class="con-lbl">Anti-Counterfeit Tech Market</div>
+      <div style="font-family:var(--serif);font-size:40px;color:var(--gold-lt);line-height:1">$2.4B</div>
+      <div style="font-size:11px;color:var(--text-dim);margin-top:4px">→ $5.3B by 2032 at 19.3% CAGR</div>
+    </div>
+    <div style="width:1px;height:56px;background:var(--gold-border)"></div>
+    <div>
+      <div class="con-lbl">AI Authentication Accuracy</div>
+      <div style="font-family:var(--serif);font-size:40px;color:var(--pos);line-height:1">99.7%</div>
+      <div style="font-size:11px;color:var(--text-dim);margin-top:4px">Lacoste Vrai AI · Entrupy 99.1%</div>
+    </div>
+    <div style="width:1px;height:56px;background:var(--gold-border)"></div>
+    <div>
+      <div class="con-lbl">LVMH AURA Blockchain</div>
+      <div style="font-family:var(--serif);font-size:40px;color:var(--pos);line-height:1">-40%</div>
+      <div style="font-size:11px;color:var(--text-dim);margin-top:4px">Counterfeit reduction via on-chain auth</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>Luxury Intelligence Dashboard · Data as of February 2025</div>
+  <div>Sources: Bain-Altagamma · Knight Frank KFLII · Sotheby's · Christie's · Phillips · Swiss Watch Federation</div>
+  <div><a href="https://x.com/Eli5defi" target="_blank" rel="noopener" style="color:var(--gold);text-decoration:none;letter-spacing:0.08em;font-size:10px">Built by <span style="color:var(--gold-lt)">eli5defi</span> ↗</a></div>
+</footer>
+
+<script>
+Chart.defaults.color = 'rgba(200,190,160,0.55)';
+Chart.defaults.font.family = "'Space Mono', monospace";
+Chart.defaults.font.size = 10;
+Chart.defaults.borderColor = 'rgba(201,168,76,0.09)';
+
+const GOLD = '#C9A84C', GOLD_LT = '#E8C97A', POS = '#5BAA7E', NEG = '#C05555';
+
+// Sparklines
+const sparkSets = [
+  { d: [278,292,308,320,335,350,363], c: '#C9A84C' },
+  { d: [238,252,264,273,287,297,306], c: '#E8C97A' },
+  { d: [478,505,528,548,565,582,600], c: '#5BAA7E' },
+  { d: [352,370,388,405,420,436,450], c: '#7AB4E8' },
+  { d: [17.2,19.4,21.1,22.6,24.0,25.4,26.6], c: '#E87A8C' },
+  { d: [20.5,23.8,27.1,30.4,33.5,36.2,38.6], c: '#A8C97A' }
+];
+sparkSets.forEach(({ d, c }, i) => {
+  const el = document.getElementById('sp' + i);
+  if (!el) return;
+  new Chart(el, {
+    type: 'line',
+    data: { labels: d.map((_,j)=>j), datasets: [{ data: d, borderColor: c, borderWidth: 1.5, fill: false, tension: 0.4, pointRadius: 0 }] },
+    options: { responsive: true, maintainAspectRatio: false, animation: false,
+      plugins: { legend: { display: false }, tooltip: { enabled: false } },
+      scales: { x: { display: false }, y: { display: false } }
+    }
+  });
+});
+
+// Watch 5Y Appreciation
+const watchAppLabels = ['F.P. Journe','A. Lange & Söhne','Audemars Piguet','Vacheron Constantin','Patek Philippe','Richard Mille','Cartier','Hublot','Omega','Rolex','IWC','Panerai','Jaeger-LeCoultre','Grand Seiko','Tudor'];
+const watchAppVals   = [148.3, 89.4, 64.85, 52.27, 33.59, 38.2, 39.06, 22.4, 27.81, 27.59, 14.3, 11.8, 16.2, 24.7, 18.9];
+// sort descending
+const watchPairs = watchAppLabels.map((l,i)=>({l,v:watchAppVals[i]})).sort((a,b)=>b.v-a.v);
+new Chart(document.getElementById('watchAppChart'), {
+  type: 'bar',
+  data: {
+    labels: watchPairs.map(p=>p.l),
+    datasets: [{
+      data: watchPairs.map(p=>p.v),
+      backgroundColor: watchPairs.map((_,i)=>`rgba(201,168,76,${0.9 - i*0.05})`),
+      borderColor: 'rgba(201,168,76,0.3)', borderWidth: 1, borderRadius: 3
+    }]
+  },
+  options: {
+    indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => ` +${c.raw}%` } } },
+    scales: {
+      x: { grid: { color: 'rgba(201,168,76,0.07)' }, ticks: { callback: v => '+'+v+'%' } },
+      y: { grid: { display: false }, ticks: { font: { size: 9 } } }
+    }
+  }
+});
+
+// KFLII 12M
+const kf12labels = ['Handbags','Jewelry','Coins','Watches','Classic Cars','Furniture','Colour Diamonds','Whisky','Wine','Fine Art'];
+const kf12vals = [2.8, 2.3, 2.1, 1.7, 1.2, -2.8, -2.2, -9.0, -9.1, -18.3];
+new Chart(document.getElementById('kflii12'), {
+  type: 'bar',
+  data: {
+    labels: kf12labels,
+    datasets: [{
+      data: kf12vals,
+      backgroundColor: kf12vals.map(v => v >= 0 ? 'rgba(91,170,126,0.72)' : 'rgba(192,85,85,0.68)'),
+      borderColor: kf12vals.map(v => v >= 0 ? 'rgba(91,170,126,0.4)' : 'rgba(192,85,85,0.4)'),
+      borderWidth: 1, borderRadius: 3
+    }]
+  },
+  options: {
+    indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => ` ${c.raw > 0 ? '+' : ''}${c.raw}%` } } },
+    scales: {
+      x: { grid: { color: 'rgba(201,168,76,0.06)' }, ticks: { callback: v => v+'%' } },
+      y: { grid: { display: false }, ticks: { font: { size: 9 } } }
+    }
+  }
+});
+
+// KFLII 10Y
+new Chart(document.getElementById('kflii10'), {
+  type: 'bar',
+  data: {
+    labels: ['Whisky','Furniture','Watches','Classic Cars','Fine Art','Wine'],
+    datasets: [{
+      data: [191.7, 140.9, 125.1, 58.9, 54.0, 37.4],
+      backgroundColor: ['rgba(201,168,76,0.9)','rgba(201,168,76,0.78)','rgba(201,168,76,0.66)','rgba(201,168,76,0.54)','rgba(201,168,76,0.44)','rgba(201,168,76,0.34)'],
+      borderColor: 'rgba(201,168,76,0.3)', borderWidth: 1, borderRadius: 3
+    }]
+  },
+  options: {
+    indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => ` +${c.raw}%` } } },
+    scales: {
+      x: { grid: { color: 'rgba(201,168,76,0.06)' }, ticks: { callback: v => '+'+v+'%' } },
+      y: { grid: { display: false }, ticks: { font: { size: 9 } } }
+    }
+  }
+});
+
+// Scroll animations
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const d = parseInt(e.target.dataset.delay || 0);
+      setTimeout(() => e.target.classList.add('show'), d);
+      io.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.08 });
+
+document.querySelectorAll('.mcard').forEach((el,i) => { el.dataset.delay = i*70; io.observe(el); });
+document.querySelectorAll('.rcard').forEach((el,i) => { el.dataset.delay = i*55; io.observe(el); });
+document.querySelectorAll('.hcard').forEach((el,i) => { el.dataset.delay = i*70; io.observe(el); });
+document.querySelectorAll('.emcard').forEach((el,i) => { el.dataset.delay = i*70; io.observe(el); });
+document.querySelectorAll('.concard').forEach((el,i) => { el.dataset.delay = i*55; io.observe(el); });
+</script>
+</body>
+</html>
